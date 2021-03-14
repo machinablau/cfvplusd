@@ -1,0 +1,5 @@
+dir | rename-item -NewName {$_.name -replace "EN-VR",""}
+dir | rename-item -NewName {$_.name -replace "EN-RRR",""}
+dir | rename-item -NewName {$_.name -replace "EN-RR",""}
+dir | rename-item -NewName {$_.name -replace "EN-R",""}
+dir | rename-item -NewName {$_.name -replace "EN-C",""}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>Cardfight Vanguard Plus (CFVplus) V-Premium</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href = "../css/basic.css">
+
+        <script type="text/javascript" src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+      <a class="navbar-brand" href="../index.html"><img src="../img/CFVplus" width="120" height="60"></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link"  href="./how_to_play.html">How to Play</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="./card_search.html">Card Database</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"  href="./deck_builder.html">Deck Builder</a>
+                </li>
+              </ul>
+          </div>
+      </nav>
+
+    <div class="container-fluid">
+      <br>
+      <div class ="row">
+        <!--Card Preview-->
+        <div class = "col-md-5">
+          <div class ="row">
+            
+            <!--Card Image-->
+            <div class = "col-md-6">
+              <img class="cardimage" style="border:1px solid white;" width ="279px" height="406px" src="../img/CFVBack.png" id = "cardPicture"><br><br>
+            </div>
+            
+            <!--Card Info except for Card Effects-->
+            <div class = "col-md-6">
+              <div class="card" style="width: 100%">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item" id = "cardGrade">Grade:</li>
+                  <li class="list-group-item" id = "cardPower">Power:</li>
+                  <li class="list-group-item" id = "cardShield">Shield:</li>
+                  <li class="list-group-item" id = "cardCritical">Critical:</li>
+                  <li class="list-group-item" id = "cardType">Type:</li>
+                  <li class="list-group-item" id = "cardRace">Race</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!--Card Effect-->
+          <div class = "row">
+            <div class="card" style="width: 100%;">
+              <div class="card-body">
+                <h6 class="card-title" id = "cardName"></h6>
+                <h6 class="card-title">Card Effect(s):</h6>
+                <p class="card-text" id = "cardEffect" style="overflow-y:auto; height: 125px;"></p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!--List of Results-->
+        <div class = "col-md-4" style="overflow-y:auto; height: 600px;">
+
+          <table class ="table table-sm" id = "cardResults">
+            <thead>
+              <tr><th>Name</th><th>Grade</th><th>Clan</th></tr>
+          </thead>
+          </table>
+
+        </div>
+
+        <!--Search Bar--> 
+        <div class = "col-md-3">
+          <form name = "searchBar" action = "./card_search.html" method = "GET" onsubmit="return false">
+             <!--By Name-->
+             <div class="form-group">
+              <label for="category">Keyword(s):</label> <br>
+              <input type="text" style="width: 100%" id ="searchName" placeholder="Enter keyword(s)"></input>
+            </div>
+
+            <!--By Clan-->
+            <div class="form-group">
+              <label for="category" >Clan:</label>
+                  <select class="form-control" id = "searchClan">
+                    <option value="">--Select Clan--</option>
+                    <option disabled>---United Sanctuary---</option>
+                    <option value="Royal Paladin">Royal Paladin</option>
+                    <option value="Oracle Think Tank">Oracle Think Tank</option>
+                    <option value="Angel Feather">Angel Feather</option>
+                    <option value="Shadow Paladin">Shadow Paladin</option>
+                    <option value="Gold Paladin">Gold Paladin</option>
+                    <option value="Genesis">Genesis</option>
+
+                    <option disabled>---Dragon Empire---</option>
+                    <option value="Kagero">Kagero</option>
+                    <option value="Nubatama">Nubatama</option>
+                    <option value="Tachikaze">Tachikaze</option>
+                    <option value="Murakumo">Murakumo</option>
+                    <option value="Narukami">Narukami</option>
+
+                    <option disabled>---Star Gate---</option>
+                    <option value="Nova Grappler">Nova Grappler</option>
+                    <option value="Dimension Police">Dimension Police</option>
+                    <option value="Link Joker">Link Joker</option>
+
+                    <option disabled>---Dark Zone---</option>
+                    <option value="Spike Brothers">Spike Brothers</option>
+                    <option value="Dark Irregulars">Dark Irregulars</option>
+                    <option value="Pale Moon">Pale Moon</option>
+                    <option value="Gear Chronicle">Gear Chronicle</option>
+
+                    <option disabled>---Magallanica---</option>
+                    <option value="Granblue">Granblue</option>
+                    <option value="Bermuda Triangle">Bermuda Triangle</option>
+                    <option value="Aqua Force">Aqua Force</option>
+
+                    <option disabled>---Zoo---</option>
+                    <option value="Megacolony">Megacolony</option>
+                    <option value="Great Nature">Great Nature</option>
+                    <option value="Neo Nectar">Neo Nectar</option>
+
+                    <option disabled>---Other---</option>
+                    <option value="Cray Elemental">Cray Elemental</option>
+                    <option value="Order">Order</option>
+                    <option value="BanG Dream!">BanG Dream!</option>
+                  </select>
+            </div>
+
+            <!--By Set-->
+            <div class="form-group">
+              <label for="category">Set:</label>
+              <select class="form-control" id="searchSet">
+                <option value="">--Select Set--</option>
+                <option disabled>--Booster Sets--</option>
+                <option value="V-BT01">V-BT01 Unite! Q4</option>
+                <option value="V-BT02">V-BT02 Strongest! AL4</option>
+                <option value="V-BT03">V-BT03 Miyaji Academy CF Club</option>
+                <option value="V-BT04">V-BT04 Vilest! Deletor</option>
+                <option value="V-BT05">V-BT05 Aerial Steed Liberation</option>
+                <option value="V-BT06">V-BT06 Phantasmal Steed Restoration</option>
+                <option value="V-BT07">V-BT07 Infinideity Cradle</option>
+                <option value="V-BT08">V-BT08 Silverdust Blaze</option>
+                <option value="V-BT09">V-BT09 Butterfly d'Moonlight</option>
+                <option value="V-BT10">V-BT10 Phantom Dragon Aeon</option>
+                <option value="V-BT11">V-BT11 Storm of the Blue Cavalry</option>
+                <option value="V-BT12">V-BT12 Divine Lightning Radiance</option>
+                <option disabled>--Extra Booster Sets--</option>
+                <option value="V-EB01">V-EB01 Destructive Roar</option>
+                <option value="V-EB02">V-EB02 Champions of the Asia Circuit</option>
+                <option value="V-EB03">V-EB03 ULTRARARE MIRACLE COLLECTION</option>
+                <option value="V-EB04">V-EB04 The Answer of Truth</option>
+                <option value="V-EB05">V-EB05 Primary Melody</option>
+                <option value="V-EB06">V-EB06 Light of Salvation, Logic of Destruction</option>
+                <option value="V-EB07">V-EB07 The Heroic Evolution</option>
+                <option value="V-EB08">V-EB08 My Glorious Justice</option>
+                <option value="V-EB09">V-EB09 The Raging Tactics</option>
+                <option value="V-EB10">V-EB10 The Mysterious Fortune</option>
+                <option value="V-EB11">V-EB11 Crystal Melody</option>
+                <option value="V-EB12">V-EB12 Team Dragon's Vanity!</option>
+                <option value="V-EB13">V-EB13 The Astral Force</option>
+                <option value="V-EB14">V-EB14 The Next Stage</option>
+                <option value="V-EB15">V-EB15 Twinkle Melody</option>
+
+                <option disabled>--Trial Decks--</option>
+                <option value="V-TD01">V-TD01 Aichi Sendou</option>
+                <option value="V-TD02">V-TD02 Toshiki Kai</option>
+                <option value="V-TD03">V-TD03 Leon Soryu</option>
+                <option value="V-TD04">V-TD04 Ren Suzugamori</option>
+                <option value="V-TD05">V-TD05 Misaki Tokura</option>
+                <option value="V-TD06">V-TD06 Naoki Ishida</option>
+                <option value="V-TD07">V-TD07 Kouji Ibuki</option>
+                <option value="V-TD08">V-TD08 Schokolade Melody</option>
+                <option value="V-TD09">V-TD09 Shinemon Nitta</option>
+                <option value="V-TD10">V-TD10 Chronojet</option>
+                <option value="V-TD11">V-TD11 Altmile</option>
+                <option value="V-TD12">V-TD12 Ahsha</option>
+
+                <option disabled>--Promos--</option>
+                <option value="V-PR18">2018 Promos</option>
+                <option value="V-PR19">2019 Promos</option>
+                <option value="V-PR20">2020 Promos</option>
+                <option value="V-PR21">2021 Promos</option>
+
+                <option disabled>--Miscellaneous--</option>
+                <option value="V-MB01">V-MB01 PSYQualia Strife</option>
+                <option value="V-SS04">V-SS04 Special Deck Set Majesty Lord Blaster</option>
+                <option value="V-SS06">V-SS06 Special Deck Set Valiant Sanctuary</option>
+                <option value="V-SS07">V-SS07 Clan Selection Vol 1</option>
+                <option value="V-SS08">V-SS08 Clan Selection Vol 2</option>
+                <option value="V-TB01">V-TB01 BanG Dream! FILM LIVE</option>
+              </select>
+            </div>
+
+            <!--By Rarity-->
+            <div class="form-group">
+              <label for="category">Rarity: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="checkbox" class="searchRarity" value="'VR'"> VR &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'RRR'"> RRR &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'RR'"> RR &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'R'"> R &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'C'"> C &nbsp;&nbsp;&nbsp;&nbsp;<br>
+                <input type="checkbox" class="searchRarity" value="'TD'"> TD &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'PR'"> PR &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'SCR'"> SCR &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchRarity" value="'LIR'"> LIR &nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+
+            <!--By Grade-->
+            <div class="form-group">
+              <label for="category">Grade: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input type="checkbox" class="searchGrade" value=0> 0 &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchGrade" value=1> 1 &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchGrade" value=2> 2 &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchGrade" value=3> 3 &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchGrade" value=4> 4 &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="checkbox" class="searchGrade" value=5> 5
+                  </select>
+            </div>
+
+            <!--By Card Type-->
+            <div class="form-group">
+              <label for="category" >Card Type: &nbsp;&nbsp;&nbsp;&nbsp;</label>
+                  <input type="checkbox" class="searchType" value="'Normal'"> Normal &nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="checkbox" class="searchType" value="'Trigger'"> Trigger &nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="checkbox" class="searchType" value="'Order'"> Order &nbsp;&nbsp;&nbsp;&nbsp;
+
+            </div>
+
+            <!--By Power-->
+            <div class = "form-group">
+              <label for="category">Power: &nbsp;&nbsp;&nbsp;&nbsp;<br></label>
+                <select id="searchLowPower">
+                  <option value=""></option>
+                  <option value=0>0</option>
+                  <option value=3000>3000</option>
+                  <option value=4000>4000</option>
+                  <option value=5000>5000</option>
+                  <option value=6000>6000</option>
+                  <option value=7000>7000</option>
+                  <option value=8000>8000</option>
+                  <option value=9000>9000</option>
+                  <option value=10000>10000</option>
+                  <option value=11000>11000</option>
+                  <option value=12000>12000</option>
+                  <option value=13000>13000</option>
+                  <option value=14000>14000</option>
+                  <option value=15000>15000</option>
+                  <option value=23000>23000</option>
+                  <option value=24000>24000</option>
+                  <option value=25000>25000</option>
+                  <option value=27000>27000</option>
+                  <option value=30000>30000</option>
+                  <option value=70000>70000</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;
+                <select id="searchHighPower">
+                  <option value=""></option>
+                  <option value=0>0</option>
+                  <option value=3000>3000</option>
+                  <option value=4000>4000</option>
+                  <option value=5000>5000</option>
+                  <option value=6000>6000</option>
+                  <option value=7000>7000</option>
+                  <option value=8000>8000</option>
+                  <option value=9000>9000</option>
+                  <option value=10000>10000</option>
+                  <option value=11000>11000</option>
+                  <option value=12000>12000</option>
+                  <option value=13000>13000</option>
+                  <option value=14000>14000</option>
+                  <option value=15000>15000</option>
+                  <option value=23000>23000</option>
+                  <option value=24000>24000</option>
+                  <option value=25000>25000</option>
+                  <option value=27000>27000</option>
+                  <option value=30000>30000</option>
+                  <option value=70000>70000</option>
+                </select>
+
+
+            </div>
+
+            <!--By Power-->
+            <div class = "form-group">
+              <label for="category">Shield: &nbsp;&nbsp;&nbsp;&nbsp;<br></label>
+                <select id="searchLowShield">
+                  <option value=""></option>
+                  <option value=0>0</option>
+                  <option value=5000>5000</option>
+                  <option value=10000>10000</option>
+                  <option value=15000>15000</option>
+                  <option value=20000>20000</option>
+                  <option value=30000>30000</option>
+                </select>
+                &nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;
+                <select id="searchHighShield">
+                  <option value=""></option>
+                  <option value=0>0</option>
+                  <option value=5000>5000</option>
+                  <option value=10000>10000</option>
+                  <option value=15000>15000</option>
+                  <option value=20000>20000</option>
+                  <option value=30000>30000</option>
+                </select>
+
+
+            </div>
+
+            <button type="submit" id = "submitButton" style="height:30px; width:100px" onclick="getResults()">Search</button>
+            <p> </p>
+        </form>
+        </div>
+
+        
+        
+        
+      </div>
+
+  </div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="../renderer.js"></script>
+    <script src="../js/cardSearch.js"></script>
+  </body>
+</html>

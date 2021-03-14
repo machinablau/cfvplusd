@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>Cardfight Vanguard Plus (CFVplus) V-Premium</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href = "../css/basic.css">
+
+        <script type="text/javascript" src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </head>
+  <!-- <body onload="getProfiles()" style="background-image: url('../img/background.PNG'); background-size: cover;">  -->
+  <body onload="getProfiles()">
+    <div class="container-fluid">
+
+      <!-- Load Modal -->
+      <div id="load" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Load Decklist</h4>
+            </div>
+            <div class="modal-body">
+              Deck Name:&nbsp;&nbsp;&nbsp;&nbsp;
+              <select id="viewLoadList">
+                <option>---Select Decklist---</option>
+              </select><br><br>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="loadList()">Load List</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+      <div class ="row">
+        
+        <div class = "col-md-3">
+          <!--List Controls-->
+          <div class = "row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#load">Load Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" onclick="Screenshot()" >Print</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="./deck_builder.html" class="btn btn-primary">Deck Builder</a>
+          </div>
+
+          <br>
+          <!--Card Preview-->
+          <div class ="row">
+            
+            <!--Card Image-->
+            <div class = "col-md-6">
+              <img style="border:1px solid white;" width ="167px" height="243px" src="../img/CFVBack.png" id = "cardPicture"><br><br>
+            </div>
+            
+            <!--Card Info except for Card Effects-->
+            <div class = "col-md-6">
+              <div class="card" style="width: 100%">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item" id = "cardGrade">Grade:</li>
+                  <li class="list-group-item" id = "cardPower">Power:</li>
+                  <li class="list-group-item" id = "cardShield">Shield:</li>
+                  <li class="list-group-item" id = "cardCritical">Critical:</li>
+                  <li class="list-group-item" id = "cardType">Type:</li>
+                  <li class="list-group-item" id = "cardRace">Race:</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!--Card Effect-->
+          <div class = "row">
+            <div class="card" style="width: 100%;">
+              <div class="card-body">
+                <h6 class="card-title" id = "cardName"></h6>
+                <h6 class="card-title">Card Effect(s):</h6>
+                <p class="card-text" id = "cardEffect" style="overflow-y:auto; height: 175px;"></p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+        <!--Deck List-->
+        <div class = "col-md-9" >
+          <h5 id = "deckName">Decklist:</h5> <br>
+          <table id = "deckList">
+          
+          </table>
+        </div>
+
+      </div>
+
+  </div>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="../renderer.js"></script>
+    <script src="../js/deckViewer.js"></script>
+  </body>
+</html>
