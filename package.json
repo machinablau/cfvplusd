@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "A Cardfight Vanguard app for the V-Premium (V-Standard) Format",
   "main": "main.js",
-  "repository": "machinablau/cfvplusd",
+  "repository": {"type": "git",
+    "url": "https://github.com/machinablau/cfvplusd.git"
+  }
   "scripts": {
     "start": "electron .",
     "create_Plus_WIN": "electron-packager . CFVPlus --platform=win32 --arch=x64 --icon=./img/icon.ico",
