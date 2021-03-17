@@ -5,7 +5,7 @@
   "main": "main.js",
   "repository": {"type": "git",
     "url": "https://github.com/machinablau/cfvplusd.git"
-  }
+  },
   "scripts": {
     "start": "electron .",
     "create_Plus_WIN": "electron-packager . CFVPlus --platform=win32 --arch=x64 --icon=./img/icon.ico",
