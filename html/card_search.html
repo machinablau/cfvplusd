@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <title>Cardfight Vanguard Plus (CFVplus) V-Premium</title>
+    <title>Cardfight Vanguard Plus (CFVplus) D-Premium</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href = "../css/basic.css">
 
@@ -21,9 +21,9 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link"  href="./how_to_play.html">How to Play</a>
-                </li>
+                <!--<li class="nav-item">
+                <a class="nav-link" href="./html/how_to_play.html">How to Play</a>-->
+              </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="./card_search.html">Card Database</a>
                 </li>
@@ -80,7 +80,7 @@
 
           <table class ="table table-sm" id = "cardResults">
             <thead>
-              <tr><th>Name</th><th>Grade</th><th>Clan</th></tr>
+              <tr><th>Name</th><th>Grade</th><th>Nation</th></tr>
           </thead>
           </table>
 
@@ -95,51 +95,19 @@
               <input type="text" style="width: 100%" id ="searchName" placeholder="Enter keyword(s)"></input>
             </div>
 
-            <!--By Clan-->
+            <!--By Nation-->
             <div class="form-group">
-              <label for="category" >Clan:</label>
-                  <select class="form-control" id = "searchClan">
-                    <option value="">--Select Clan--</option>
-                    <option disabled>---United Sanctuary---</option>
-                    <option value="Royal Paladin">Royal Paladin</option>
-                    <option value="Oracle Think Tank">Oracle Think Tank</option>
-                    <option value="Angel Feather">Angel Feather</option>
-                    <option value="Shadow Paladin">Shadow Paladin</option>
-                    <option value="Gold Paladin">Gold Paladin</option>
-                    <option value="Genesis">Genesis</option>
-
-                    <option disabled>---Dragon Empire---</option>
-                    <option value="Kagero">Kagero</option>
-                    <option value="Nubatama">Nubatama</option>
-                    <option value="Tachikaze">Tachikaze</option>
-                    <option value="Murakumo">Murakumo</option>
-                    <option value="Narukami">Narukami</option>
-
-                    <option disabled>---Star Gate---</option>
-                    <option value="Nova Grappler">Nova Grappler</option>
-                    <option value="Dimension Police">Dimension Police</option>
-                    <option value="Link Joker">Link Joker</option>
-
-                    <option disabled>---Dark Zone---</option>
-                    <option value="Spike Brothers">Spike Brothers</option>
-                    <option value="Dark Irregulars">Dark Irregulars</option>
-                    <option value="Pale Moon">Pale Moon</option>
-                    <option value="Gear Chronicle">Gear Chronicle</option>
-
-                    <option disabled>---Magallanica---</option>
-                    <option value="Granblue">Granblue</option>
-                    <option value="Bermuda Triangle">Bermuda Triangle</option>
-                    <option value="Aqua Force">Aqua Force</option>
-
-                    <option disabled>---Zoo---</option>
-                    <option value="Megacolony">Megacolony</option>
-                    <option value="Great Nature">Great Nature</option>
-                    <option value="Neo Nectar">Neo Nectar</option>
-
-                    <option disabled>---Other---</option>
+              <label for="category" >Nation:</label>
+                  <select class="form-control" id = "searchNation">
+                    <option value="">--Select Nation--</option>
+                    <option>---Keter Sanctuary---</option>
+                    <option>---Dragon Empire---</option>
+                    <option>---Brandt Gate---</option>
+                    <option>---Dark States---</option>
+                    <option>---Stoicheia---</option>
+                    <option>---Zoo---</option>
+                    <option>---Other---</option>
                     <option value="Cray Elemental">Cray Elemental</option>
-                    <option value="Order">Order</option>
-                    <option value="BanG Dream!">BanG Dream!</option>
                   </select>
             </div>
 
@@ -149,77 +117,29 @@
               <select class="form-control" id="searchSet">
                 <option value="">--Select Set--</option>
                 <option disabled>--Booster Sets--</option>
-                <option value="V-BT01">V-BT01 Unite! Q4</option>
-                <option value="V-BT02">V-BT02 Strongest! AL4</option>
-                <option value="V-BT03">V-BT03 Miyaji Academy CF Club</option>
-                <option value="V-BT04">V-BT04 Vilest! Deletor</option>
-                <option value="V-BT05">V-BT05 Aerial Steed Liberation</option>
-                <option value="V-BT06">V-BT06 Phantasmal Steed Restoration</option>
-                <option value="V-BT07">V-BT07 Infinideity Cradle</option>
-                <option value="V-BT08">V-BT08 Silverdust Blaze</option>
-                <option value="V-BT09">V-BT09 Butterfly d'Moonlight</option>
-                <option value="V-BT10">V-BT10 Phantom Dragon Aeon</option>
-                <option value="V-BT11">V-BT11 Storm of the Blue Cavalry</option>
-                <option value="V-BT12">V-BT12 Divine Lightning Radiance</option>
-                <option disabled>--Extra Booster Sets--</option>
-                <option value="V-EB01">V-EB01 Destructive Roar</option>
-                <option value="V-EB02">V-EB02 Champions of the Asia Circuit</option>
-                <option value="V-EB03">V-EB03 ULTRARARE MIRACLE COLLECTION</option>
-                <option value="V-EB04">V-EB04 The Answer of Truth</option>
-                <option value="V-EB05">V-EB05 Primary Melody</option>
-                <option value="V-EB06">V-EB06 Light of Salvation, Logic of Destruction</option>
-                <option value="V-EB07">V-EB07 The Heroic Evolution</option>
-                <option value="V-EB08">V-EB08 My Glorious Justice</option>
-                <option value="V-EB09">V-EB09 The Raging Tactics</option>
-                <option value="V-EB10">V-EB10 The Mysterious Fortune</option>
-                <option value="V-EB11">V-EB11 Crystal Melody</option>
-                <option value="V-EB12">V-EB12 Team Dragon's Vanity!</option>
-                <option value="V-EB13">V-EB13 The Astral Force</option>
-                <option value="V-EB14">V-EB14 The Next Stage</option>
-                <option value="V-EB15">V-EB15 Twinkle Melody</option>
+                <option value="D-BT01">D-BT01 Genesis of the Five Greats</option>
 
-                <option disabled>--Trial Decks--</option>
-                <option value="V-TD01">V-TD01 Aichi Sendou</option>
-                <option value="V-TD02">V-TD02 Toshiki Kai</option>
-                <option value="V-TD03">V-TD03 Leon Soryu</option>
-                <option value="V-TD04">V-TD04 Ren Suzugamori</option>
-                <option value="V-TD05">V-TD05 Misaki Tokura</option>
-                <option value="V-TD06">V-TD06 Naoki Ishida</option>
-                <option value="V-TD07">V-TD07 Kouji Ibuki</option>
-                <option value="V-TD08">V-TD08 Schokolade Melody</option>
-                <option value="V-TD09">V-TD09 Shinemon Nitta</option>
-                <option value="V-TD10">V-TD10 Chronojet</option>
-                <option value="V-TD11">V-TD11 Altmile</option>
-                <option value="V-TD12">V-TD12 Ahsha</option>
+                <option disabled>--Start Decks--</option>
+                <option value="D-TD01">D-TD01 Yu-yu Kondo -Holy Dragon-</option>
+                <option value="D-TD02">D-TD02 Danji Momoyama -Tyrant Tiger-</option>
+                <option value="D-TD03">D-TD03 Tohya Ebata -Apex Ruler- </option>
+                <option value="D-TD04">D-TD04 Megumi Okura -Sylvan King-</option>
+                <option value="D-TD05">D-TD05 Tomari Seto -Aurora Valkyrie-</option>
 
                 <option disabled>--Promos--</option>
-                <option value="V-PR18">2018 Promos</option>
-                <option value="V-PR19">2019 Promos</option>
-                <option value="V-PR20">2020 Promos</option>
-                <option value="V-PR21">2021 Promos</option>
-
-                <option disabled>--Miscellaneous--</option>
-                <option value="V-MB01">V-MB01 PSYQualia Strife</option>
-                <option value="V-SS04">V-SS04 Special Deck Set Majesty Lord Blaster</option>
-                <option value="V-SS06">V-SS06 Special Deck Set Valiant Sanctuary</option>
-                <option value="V-SS07">V-SS07 Clan Selection Vol 1</option>
-                <option value="V-SS08">V-SS08 Clan Selection Vol 2</option>
-                <option value="V-TB01">V-TB01 BanG Dream! FILM LIVE</option>
+                <option value="D-PR21">2018 Promos</option>
               </select>
             </div>
 
             <!--By Rarity-->
             <div class="form-group">
               <label for="category">Rarity: &nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <input type="checkbox" class="searchRarity" value="'VR'"> VR &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchRarity" value="'RRR'"> RRR &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchRarity" value="'RR'"> RR &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchRarity" value="'R'"> R &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchRarity" value="'C'"> C &nbsp;&nbsp;&nbsp;&nbsp;<br>
                 <input type="checkbox" class="searchRarity" value="'TD'"> TD &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchRarity" value="'PR'"> PR &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="searchRarity" value="'SCR'"> SCR &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="searchRarity" value="'LIR'"> LIR &nbsp;&nbsp;&nbsp;&nbsp;
             </div>
 
             <!--By Grade-->
@@ -229,8 +149,6 @@
                 <input type="checkbox" class="searchGrade" value=1> 1 &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchGrade" value=2> 2 &nbsp;&nbsp;&nbsp;&nbsp;
                 <input type="checkbox" class="searchGrade" value=3> 3 &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="searchGrade" value=4> 4 &nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="checkbox" class="searchGrade" value=5> 5
                   </select>
             </div>
 
@@ -308,6 +226,7 @@
                   <option value=15000>15000</option>
                   <option value=20000>20000</option>
                   <option value=30000>30000</option>
+                  <option value=50000>50000</option>
                 </select>
                 &nbsp;&nbsp;&nbsp;&nbsp; - &nbsp;&nbsp;&nbsp;&nbsp;
                 <select id="searchHighShield">
@@ -318,6 +237,7 @@
                   <option value=15000>15000</option>
                   <option value=20000>20000</option>
                   <option value=30000>30000</option>
+                  <option value=50000>50000</option>
                 </select>
 
 

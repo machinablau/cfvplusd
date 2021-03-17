@@ -21,9 +21,9 @@ function getResults(){
     //Gathering Information from Search Form
     var searchName = document.getElementById('searchName').value;
     var searchSet = document.getElementById('searchSet').value;
-    var searchRarity =getCheckVals(document.getElementsByClassName('searchRarity'), 9);
-    var searchGrade = getCheckVals(document.getElementsByClassName('searchGrade'), 6);
-    var searchClan = document.getElementById("searchClan").value;
+    var searchRarity =getCheckVals(document.getElementsByClassName('searchRarity'), 6);
+    var searchGrade = getCheckVals(document.getElementsByClassName('searchGrade'), 4);
+    var searchNation = document.getElementById("searchNation").value;
     var searchType = getCheckVals(document.getElementsByClassName('searchType'), 3);
     var searchLowPower = document.getElementById('searchLowPower').value;
     var searchHighPower = document.getElementById('searchHighPower').value;
@@ -36,7 +36,7 @@ function getResults(){
     sql = 'SELECT * FROM "MasterStandardList"';
 
     //SQL Statement Add-Ons
-    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchSet !=''||searchRarity !=''||searchGrade !=''||searchClan !=''||searchType !=''){
+    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
         sql += ' WHERE ';
         
         //Search by Name *Keyword idea pending*
@@ -48,12 +48,12 @@ function getResults(){
             sql += searchName;
             sql += "%' OR CardNumber LIKE '%";
             sql += searchName;
-            sql += "%' OR Clan LIKE '%";
+            sql += "%' OR Nation LIKE '%";
             sql += searchName;
             sql += "%' OR Race LIKE '%";
             sql += searchName;
             sql += "%')";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchSet !=''||searchRarity !=''||searchGrade !=''||searchClan !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
                 sql += ' AND ';
             }
         }
@@ -63,7 +63,7 @@ function getResults(){
             sql += "CardNumber LIKE '%";
             sql += searchSet;
             sql += "%'";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchRarity !=''||searchGrade !=''||searchClan !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
                 sql += ' AND ';
             }
         }
@@ -83,7 +83,7 @@ function getResults(){
             rarityAddOn += ")";
             sql += rarityAddOn;
 
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchClan !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchNation !=''||searchType !=''){
                 sql += ' AND ';
             }
         }
@@ -103,15 +103,15 @@ function getResults(){
             gradeAddOn += ")";
             sql += gradeAddOn;
 
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchClan !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchNation !=''||searchType !=''){
                 sql += ' AND ';
             }
         }
 
-        //Search by Clan
-        if (searchClan !=''){
-            sql += "Clan = '";
-            sql += searchClan;
+        //Search by Nation
+        if (searchNation !=''){
+            sql += "Nation = '";
+            sql += searchNation;
             sql += "'";
             if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchType !=''){
                 sql += ' AND ';
@@ -235,7 +235,7 @@ function setHeaders(Parent){
 
     cell1.innerHTML = "<b>Name</b>";
     cell2.innerHTML = "<b>Grade</b>";
-    cell3.innerHTML = "<b>Clan</b>";
+    cell3.innerHTML = "<b>Nation</b>";
 
     return;
 }
@@ -252,7 +252,7 @@ function cardTable(result, t){
     let nameTag = '<a href = "#" id ="'+result.CardNumber+'" onmouseover="showCard(this.id)">'
     cell1.innerHTML = nameTag +result.Name+"</a>";
     cell2.innerHTML = result.Grade;
-    cell3.innerHTML = result.Clan;
+    cell3.innerHTML = result.Nation;
 
     return;
     
