@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <title>Cardfight Vanguard Plus (CFVplus) V-Premium</title>
+    <title>Cardfight Vanguard Plus (CFVplus) Standard</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href = "../css/basic.css">
 
@@ -15,17 +15,17 @@
   </head>
   <!-- <body onload="getProfiles()" style="background-image: url('../img/background.PNG'); background-size: cover;"> -->
   <body onload="getProfiles()">
-    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-primary">
       <a class="navbar-brand" href="../index.html"><img src="../img/CFVplus" width="120" height="60"></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                <!--<li class="nav-item">
+                <li class="nav-item">
                 <a class="nav-link" href="./html/how_to_play.html">How to Play</a>
               </li>-->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link"  href="./card_search.html">Card Database</a>
                 </li>
                 <li class="nav-item">
@@ -33,7 +33,7 @@
               </li>
               </ul>
           </div>
-      </nav>
+      </nav> --> 
 
     <div class="container-fluid">
       <br>
@@ -55,44 +55,11 @@
                 Nation:&nbsp;&nbsp;&nbsp;&nbsp;
                 <select id = "searchNation">
                   <option value="">--Select Nation--</option>
-                  <option disabled>---United Sanctuary---</option>
-                  <option value="Royal Paladin">Royal Paladin</option>
-                  <option value="Oracle Think Tank">Oracle Think Tank</option>
-                  <option value="Angel Feather">Angel Feather</option>
-                  <option value="Shadow Paladin">Shadow Paladin</option>
-                  <option value="Gold Paladin">Gold Paladin</option>
-                  <option value="Genesis">Genesis</option>
-
-                  <option disabled>---Dragon Empire---</option>
-                  <option value="Kagero">Kagero</option>
-                  <option value="Nubatama">Nubatama</option>
-                  <option value="Tachikaze">Tachikaze</option>
-                  <option value="Murakumo">Murakumo</option>
-                  <option value="Narukami">Narukami</option>
-
-                  <option disabled>---Star Gate---</option>
-                  <option value="Nova Grappler">Nova Grappler</option>
-                  <option value="Dimension Police">Dimension Police</option>
-                  <option value="Link Joker">Link Joker</option>
-
-                  <option disabled>---Dark Zone---</option>
-                  <option value="Spike Brothers">Spike Brothers</option>
-                  <option value="Dark Irregulars">Dark Irregulars</option>
-                  <option value="Pale Moon">Pale Moon</option>
-                  <option value="Gear Chronicle">Gear Chronicle</option>
-
-                  <option disabled>---Magallanica---</option>
-                  <option value="Granblue">Granblue</option>
-                  <option value="Bermuda Triangle">Bermuda Triangle</option>
-                  <option value="Aqua Force">Aqua Force</option>
-
-                  <option disabled>---Zoo---</option>
-                  <option value="Megacolony">Megacolony</option>
-                  <option value="Great Nature">Great Nature</option>
-                  <option value="Neo Nectar">Neo Nectar</option>
-
-                  <option disabled>---Other---</option>
-                  <option value="BanG Dream!">BanG Dream!</option>
+                  <option value = "Keter Sanctuary">Keter Sanctuary</option>
+                  <option value = "Dragon Empire">Dragon Empire</option>
+                  <option value = "Brandt Gate">Brandt Gate</option>
+                  <option value = "Dark States">Dark States</option>
+                  <option value = "Stoicheia">Stoicheia</option>
                 </select>
 
               </form>
@@ -235,15 +202,18 @@
         
         <div class = "col-md-3">
           <!--List Controls-->
+          <div class = "row"><h5 id = "deckName">Decklist:</h5></div>
           <div class = "row">
+            
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create">Create New Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete">Delete Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-primary" onclick="Screenshot()" >Print</button>
+            <a href="./deck_viewer.html" class="btn btn-primary">View Deck</a>
+            <!-- <button type="button" class="btn btn-primary" onclick="Screenshot()" >Print</button> -->
           </div>
           <br>
           <div class = "row">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#load">Load Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="./deck_viewer.html" class="btn btn-primary">View Deck</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="../index.html" class="btn btn-primary">Back to Menu</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#help" >Help ?</button>
           </div>
 
@@ -285,10 +255,12 @@
 
         <!--Deck List-->
         <div class = "col-md-6" >
-          <h5 id = "deckName">Decklist:</h5> <br>
-          <table id = "deckList">
-          
-          </table>
+          <h5>Ride Deck:</h5>
+          <table id = "rideDeck"></table>
+          <h5>Main Deck:</h5>
+          <table id = "deckList"></table>
+          <h5>Triggers:</h5>
+          <table id = "Triggers"></table>
         </div>
 
         <!--Search Bar--> 
@@ -334,6 +306,8 @@
 
             <!--By Power-->
             <div class = "form-group">
+              <input type="checkbox" id="Ride_Deck" > Insert into Ride Deck &nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="checkbox" id="Ride_Deck_Delete" > Delete from Ride Deck<br><br>
               <label for="category">Power: &nbsp;&nbsp;&nbsp;&nbsp;<br></label>
                 <select id="searchLowPower">
                   <option value=""></option>

@@ -21,7 +21,7 @@ function getResults(){
     //Gathering Information from Search Form
     var searchName = document.getElementById('searchName').value;
     var searchSet = document.getElementById('searchSet').value;
-    var searchRarity =getCheckVals(document.getElementsByClassName('searchRarity'), 6);
+    var searchRarity =getCheckVals(document.getElementsByClassName('searchRarity'), 8);
     var searchGrade = getCheckVals(document.getElementsByClassName('searchGrade'), 4);
     var searchNation = document.getElementById("searchNation").value;
     var searchType = getCheckVals(document.getElementsByClassName('searchType'), 3);

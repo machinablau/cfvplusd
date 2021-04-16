@@ -51,6 +51,14 @@ background: linear-gradient(to bottom, #2c5099, #269599);
   border: none;
 }
 
+#rideDeck, #rideDeck td{
+  border: none;
+}
+
+#Triggers, #Triggers td{
+  border: none;
+}
+
 
 table { border:solid 1px white;
 }

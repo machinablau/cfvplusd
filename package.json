@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A Cardfight Vanguard app for the V-Premium (V-Standard) Format",
   "main": "main.js",
-  "repository": {"type": "git",
+  "repository": {
+    "type": "git",
     "url": "https://github.com/machinablau/cfvplusd.git"
   },
   "scripts": {
@@ -16,12 +17,12 @@
   "devDependencies": {
     "electron": "^9.4.4",
     "electron-installer-dmg": "^3.0.0",
-    "electron-packager": "^15.1.0",
-    "electron-rebuild": "^2.0.0"
+    "electron-packager": "^15.2.0",
+    "electron-rebuild": "^2.3.5"
   },
   "dependencies": {
-    "better-sqlite3": "^7.1.0",
-    "bootstrap": "^4.5.2",
+    "better-sqlite3": "^7.1.2",
+    "bootstrap": "^4.6.0",
     "dialogs": "^2.0.1",
     "electron-auto-update": "^1.2.2",
     "html2canvas": "^1.0.0-rc.7",

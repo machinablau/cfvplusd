@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-    <title>Cardfight Vanguard Plus (CFVplus) V-Premium</title>
+    <title>Cardfight Vanguard Plus (CFVplus) Standard</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href = "../css/basic.css">
 
@@ -40,7 +40,9 @@
         </div>
       </div>
 
-      
+      <div class = "row">
+        <h5 id = "deckName">Decklist:</h5> <br>
+      </div>
 
       <div class ="row">
         
@@ -75,13 +77,14 @@
               </div>
             </div>
           </div>
+          <br>
           <!--Card Effect-->
           <div class = "row">
             <div class="card" style="width: 100%;">
               <div class="card-body">
                 <h6 class="card-title" id = "cardName"></h6>
                 <h6 class="card-title">Card Effect(s):</h6>
-                <p class="card-text" id = "cardEffect" style="overflow-y:auto; height: 175px;"></p>
+                <p class="card-text" id = "cardEffect" style="overflow-y:auto; height: 230px;"></p>
               </div>
             </div>
 
@@ -90,11 +93,13 @@
         </div>
 
         <!--Deck List-->
-        <div class = "col-md-9" >
-          <h5 id = "deckName">Decklist:</h5> <br>
-          <table id = "deckList">
-          
-          </table>
+        <div class = "col-md-9" id = "DeckTables">
+          <h5 id = "RideTitle">Ride Deck:</h5>
+          <table id = "rideDeck"></table>
+          <h5 id = "MainTitle">Main Deck:</h5>
+          <table id = "deckList"></table>
+          <h5 id = "TriggerTitle">Triggers:</h5>
+          <table id = "Triggers"></table>
         </div>
 
       </div>

@@ -65,6 +65,23 @@ function clearTables(selector){
         Parent.removeChild(Parent.firstChild);
         }
     }
+
+    if (selector == "access"){
+        Parent = document.getElementById("rideDeck");
+        while(Parent.hasChildNodes())
+        {
+        Parent.removeChild(Parent.firstChild);
+        }
+    }
+
+    if (selector == "access"){
+        Parent = document.getElementById("Triggers");
+        while(Parent.hasChildNodes())
+        {
+        Parent.removeChild(Parent.firstChild);
+        }
+    }
+    process.setMaxListeners(0);
     return;
 }
 
@@ -98,13 +115,33 @@ function showCard(card){
 
 //Accessing List
 function accessList(){
-    let sql = "SELECT * FROM "+ deckList + " ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    let sql = "SELECT * FROM "+ deckList + "_Ride_Deck ORDER BY Grade ASC;";
     let t = 0;
     let db = require('better-sqlite3')(profilesdb);
     let stmt = db.prepare(sql);
     clearTables("access");
     for (const info of stmt.iterate()) {   
-        listTable(info, t);
+        listTable(info, t, 'rideDeck');
+        t = t +1;
+        deckLimit = t;
+
+    }
+    sql = "SELECT * FROM "+ deckList + "_Main_Deck ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    t = 0;
+    db = require('better-sqlite3')(profilesdb);
+    stmt = db.prepare(sql);
+    for (const info of stmt.iterate()) {   
+        listTable(info, t, 'deckList');
+        t = t +1;
+        deckLimit = t;
+
+    }
+    sql = "SELECT * FROM "+ deckList + "_Triggers ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    t = 0;
+    db = require('better-sqlite3')(profilesdb);
+    stmt = db.prepare(sql);
+    for (const info of stmt.iterate()) {   
+        listTable(info, t, 'Triggers');
         t = t +1;
         deckLimit = t;
 
@@ -117,8 +154,8 @@ function accessList(){
 
 
 //Display List
-function listTable(result, t){
-    var table = document.getElementById("deckList");
+function listTable(result, t, tableName){
+    var table = document.getElementById(tableName);
     var tablerow;
 
     if (t%10 == 0){
@@ -129,19 +166,19 @@ function listTable(result, t){
     }
     else{
         if (t >= 0){
-            tablerow = document.getElementById("deckList").rows[0];
+            tablerow = document.getElementById(tableName).rows[0];
         }
         if (t >= 10){
-            tablerow = document.getElementById("deckList").rows[1];
+            tablerow = document.getElementById(tableName).rows[1];
         }
         if (t >= 20){
-            tablerow = document.getElementById("deckList").rows[2];
+            tablerow = document.getElementById(tableName).rows[2];
         }
         if (t >= 30){
-            tablerow = document.getElementById("deckList").rows[3];
+            tablerow = document.getElementById(tableName).rows[3];
         }
         if (t >= 40){
-            tablerow = document.getElementById("deckList").rows[4];
+            tablerow = document.getElementById(tableName).rows[4];
         }       
     }
     
@@ -153,10 +190,11 @@ function listTable(result, t){
     link.href = "#";
     var x = document.createElement("IMG");
     x.src=picture;
-    x.onmouseover = function() {showCard(result.Number)};
-    //x.onclick = function() {deleteCard(result.id)};
-    x.height = "155";
-    x.width = "100";
+    x.onmouseover = function() {showCard(result.Number); return;};
+    x.onclick = function() {deleteCard(result.id); return;};
+    //x.oncontextmenu = function(){addCard(result.id); return;};
+    x.height = "117";
+    x.width = "87";
     link.appendChild(x);
     switch(t%10){
         case 0:
@@ -190,6 +228,7 @@ function listTable(result, t){
             tablerow.cells[9].appendChild(link);
             break;
     }
+    process.setMaxListeners(0);
     return;
 
 }
@@ -206,15 +245,22 @@ function loadList(){
 
 function Screenshot(){
     console.log('now printing');
-    var container = document.getElementById("deckList");; // full page 
-		html2canvas(container,{allowTaint : true}).then(function(canvas) {
-		
-			var link = document.createElement("a");
-            document.body.appendChild(link);
-            fname =(deckList+".png")
-			link.download = fname;
-			link.href = canvas.toDataURL("image/png");
-			link.target = '_blank';
-			link.click();
-		});
+    var container = document.getElementById("DeckTables");; // full page 
+    document.getElementById("RideTitle").style.color = "black";
+    document.getElementById("MainTitle").style.color = "black";
+    document.getElementById("TriggerTitle").style.color = "black";
+    html2canvas(container,{allowTaint : true}).then(function(canvas) {
+        
+        var link = document.createElement("a");
+        document.body.appendChild(link);
+        fname =(deckList+".png")
+        link.download = fname;
+        link.href = canvas.toDataURL("image/png");
+        link.target = '_blank';
+        link.click();
+    });
+    document.getElementById("RideTitle").style.color = "white";
+    document.getElementById("MainTitle").style.color = "white";
+    document.getElementById("TriggerTitle").style.color = "white";
+    return;
 }

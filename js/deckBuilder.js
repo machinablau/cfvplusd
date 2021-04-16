@@ -7,7 +7,7 @@ const cfvdb = path.resolve(__dirname, '../db/cfv.db');
 const profilesdb = path.resolve(__dirname, '../db/Profiles.db');
 
 //Global Variables
-var searchClan;
+var searchNation;
 var deckList;
 var deckLimit;
 
@@ -41,15 +41,19 @@ function createList(){
         process.setMaxListeners(0);
         return;
     }
-    if ( document.getElementById('searchClan').value == ""){
-        dialogs.alert("You must select a clan!");
+    if ( document.getElementById('searchNation').value == ""){
+        dialogs.alert("You must select a Nation!");
         process.setMaxListeners(0);
         return;
     }
     var db = require('better-sqlite3')(profilesdb);
     deckList = cleanName(document.getElementById("newList").value);
     try{
-        var stmt = db.prepare('CREATE TABLE ' + deckList + ' (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Ride_Deck (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var info = stmt.run();
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Main_Deck (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var info = stmt.run();
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Triggers (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
         var info = stmt.run();
         dialogs.alert("You have created the list: " + displayName(deckList));
     }
@@ -61,12 +65,12 @@ function createList(){
         return;
     }
 
-    searchClan = "'"+ document.getElementById('searchClan').value +"'";
+    searchNation = "'"+ document.getElementById('searchNation').value +"'";
     document.getElementById('deckName').innerHTML = "Decklist: " + displayName(deckList);
     
     try{
-        var stmt= db.prepare('INSERT INTO MasterDeckList (DeckName, Clan) VALUES (?,?)');
-        var info = stmt.run(deckList, document.getElementById('searchClan').value);
+        var stmt= db.prepare('INSERT INTO MasterDeckList (DeckName, Nation) VALUES (?,?)');
+        var info = stmt.run(deckList, document.getElementById('searchNation').value);
     }
     catch(error){
         console.log(info);
@@ -128,7 +132,11 @@ function deleteList(){
 
 
     var db = require('better-sqlite3')(profilesdb);
-    var stmt = db.prepare('DROP TABLE ' + deleteTable);
+    var stmt = db.prepare('DROP TABLE ' + deleteTable + '_Ride_Deck');
+    stmt.run();
+    stmt = db.prepare('DROP TABLE ' + deleteTable +'_Main_Deck');
+    stmt.run();
+    stmt = db.prepare('DROP TABLE ' + deleteTable + '_Triggers');
     stmt.run();
     dialogs.alert("You have deleted decklist:" + displayName(deleteTable) + ".");
 
@@ -139,7 +147,7 @@ function deleteList(){
 
     clearTables("results");
     clearTables("access");
-    searchClan = "";
+    searchNation = "";
     document.getElementById('deckName').innerHTML = "Decklist: ";
     getProfiles();
     process.setMaxListeners(0);
@@ -193,9 +201,9 @@ function getResults(){
     let sql;
     let db = require('better-sqlite3')(cfvdb);
     sql = 'SELECT * FROM "MasterStandardList"';
-    sql += ' WHERE (Clan =';
-    sql += searchClan;
-    sql += " OR Clan = 'Cray Elemental' OR Clan = 'Order')";
+    sql += ' WHERE (Nation =';
+    sql += searchNation;
+    sql += " OR Nation = 'Cray Elemental' OR Nation = 'Order')";
 
     //SQL Statement Add-Ons
     if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchGrade !=''||searchType !=''){
@@ -346,6 +354,22 @@ function clearTables(selector){
         Parent.removeChild(Parent.firstChild);
         }
     }
+
+    if (selector == "access"){
+        Parent = document.getElementById("rideDeck");
+        while(Parent.hasChildNodes())
+        {
+        Parent.removeChild(Parent.firstChild);
+        }
+    }
+
+    if (selector == "access"){
+        Parent = document.getElementById("Triggers");
+        while(Parent.hasChildNodes())
+        {
+        Parent.removeChild(Parent.firstChild);
+        }
+    }
     process.setMaxListeners(0);
     return;
 }
@@ -418,158 +442,62 @@ function addCard(card){
     cardName = cardName.replace(/'/g, "");
     //console.log(cardName); 
     //Deck Checker 34 Normal/Order Cards & 16 Trigger Cards
-    
-    if (cardType == "Normal" || cardType =="Order"){
-        var countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+" WHERE Type = 'Normal' OR Type = 'Order'");
+    if (document.getElementById("Ride_Deck").checked){
+        var countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Ride_Deck WHERE Type = 'Normal' OR Type = 'Order' OR Type = 'Trigger'");
         let cardCount = countNO.get();
         cardCount = cardCount["countNO"] 
-        if (cardCount == 34)
+        if (cardCount == 4)
         {
-            dialogs.alert("You have reached the maximum number of Normal or Order Cards in deck" );
+            dialogs.alert("You have reached the maximum number in Ride deck" );
             process.setMaxListeners(0);
             return;
         }
-
     }
     else{
-        var countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+" WHERE Type = 'Trigger'");
-        let cardCount = countNO.get();
-        cardCount = cardCount["countNO"];
-        if (cardCount == 16)
-        {
-            dialogs.alert("You have reached the maximum number of Triggers in deck" );
-            return;
+        if (cardType == "Normal" || cardType =="Order"){
+            var countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Main_Deck WHERE Type = 'Normal' OR Type = 'Order'");
+            let cardCount = countNO.get();
+            cardCount = cardCount["countNO"] 
+            if (cardCount == 30)
+            {
+                dialogs.alert("You have reached the maximum number of Normal or Order Cards in Main deck" );
+                process.setMaxListeners(0);
+                return;
+            }
+    
         }
-
+        else{
+            var countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Triggers WHERE Type = 'Trigger'");
+            let cardCount = countNO.get();
+            cardCount = cardCount["countNO"];
+            if (cardCount == 16)
+            {
+                dialogs.alert("You have reached the maximum number of Triggers in deck" );
+                return;
+            }
+    
+        }
     }
-
+    
+    
     //Deck Checker Special Rules
     //Ex: Sentinels or Heals
     if (cardSpecial != ' '){
-        // Card cannot be placed in deck.
-        if (cardSpecial == 'Banned'){
-            dialogs.alert("This card has been restricted to 0. Please check restriction list for details." );
-            return;
-        }
-
-
-        let cardSpecialCounter;
-        // Only 1 copy can be placed in deck.
-        if (cardSpecial == 'Limited'){
-            countNO = db.prepare("SELECT COUNT(Name) AS countNO FROM "+deckList+" WHERE Name = '"+ cardName+"'");
+        if (cardSpecial == 'Over'){ 
+            countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Triggers WHERE Special = 'Over'");
             cardSpecialCounter = countNO.get();
             cardSpecialCounter = cardSpecialCounter["countNO"];
+    
             if (cardSpecialCounter == 1)
             {
-                dialogs.alert("You have cannot have more than 1 copy per deck. Please check restriction list for details." );
+                dialogs.alert("You can only play 1 Over Trigger in Deck!" );
                 return;
             }
-
-        }
-
-        // Only 2 copies can be placed in deck.
-        if (cardSpecial == 'SemiLimited'){
-            countNO = db.prepare("SELECT COUNT(Name) AS countNO FROM "+deckList+" WHERE Special = '"+ cardName+"'");
-            cardSpecialCounter = countNO.get();
-            cardSpecialCounter = cardSpecialCounter["countNO"];
-            if (cardSpecialCounter == 2)
-            {
-                dialogs.alert("You have cannot have more than 2 copy per deck. Please check restriction list for details." );
-                return;
-            }
-
-        }
-        // 16 copies can be placed in deck.
-        if (cardSpecial == 'Eight'){
-            countNO = db.prepare("SELECT COUNT(Name) AS countNO FROM "+deckList+" WHERE Name = '"+ cardName+"'");
-            cardSpecialCounter = countNO.get();
-            cardSpecialCounter = cardSpecialCounter["countNO"];
-            if (cardSpecialCounter == 8)
-            {
-                dialogs.alert("You have cannot have more than 8 copy per deck." );
-                return;
-            }
-
-        }
-
-        // 16 copies can be placed in deck.
-        if (cardSpecial == 'Twelve'){
-            countNO = db.prepare("SELECT COUNT(Name) AS countNO FROM "+deckList+" WHERE Name = '"+ cardName+"'");
-            cardSpecialCounter = countNO.get();
-            cardSpecialCounter = cardSpecialCounter["countNO"];
-            if (cardSpecialCounter == 12)
-            {
-                dialogs.alert("You have cannot have more than 12 copy per deck." );
-                return;
-            }
-
-        }
-
-        // 16 copies can be placed in deck.
-        if (cardSpecial == 'Sixteen'){
-            countNO = db.prepare("SELECT COUNT(Name) AS countNO FROM "+deckList+" WHERE Name = '"+ cardName+"'");
-            cardSpecialCounter = countNO.get();
-            cardSpecialCounter = cardSpecialCounter["countNO"];
-            if (cardSpecialCounter == 16)
-            {
-                dialogs.alert("You have cannot have more than 16 copy per deck." );
-                return;
-            }
-
-        }
-
-        // Choice Restriction
-        // Pending/Lengthy
-        if (cardSpecial == 'Choice'){
-            //Restriction between Skull Witch Nemain and Dragheart Luard
-            if (cardName == "Skull Witch, Nemain"){
-                countNO = db.prepare("SELECT Count(Name) AS countNO from "+deckList+" WHERE Name = 'Dragheart, Luard'");
-                cardSpecialCounter = countNO.get();
-                cardSpecialCounter = cardSpecialCounter["countNO"];
-                if (cardSpecialCounter > 0)
-                {
-                    dialogs.alert("Skull Witch, Nemain is choice restriced with Dragheart, Luard. Please check restriction list.");
-                    return;
-                }
-            }
-            if (cardName == "Dragheart, Luard"){
-                countNO = db.prepare("SELECT Count(Name) AS countNO from "+deckList+" WHERE Name = 'Skull Witch, Nemain'");
-                cardSpecialCounter = countNO.get();
-                cardSpecialCounter = cardSpecialCounter["countNO"];
-                if (cardSpecialCounter > 0)
-                {
-                    dialogs.alert("Dragheart, Luard is choice restriced with Skull Witch, Nemain. Please check restriction list.");
-                    return;
-                }
-            }
-            // Restriction between Sunrise Ray Knight, Gurguit and Bluish Flame Liberator, Percival 
-            if (cardName == "Sunrise Ray Knight, Gurguit"){
-                countNO = db.prepare("SELECT Count(Name) AS countNO from "+deckList+" WHERE Name = 'Bluish Flame Liberator, Percival'");
-                cardSpecialCounter = countNO.get();
-                cardSpecialCounter = cardSpecialCounter["countNO"];
-                if (cardSpecialCounter > 0)
-                {
-                    dialogs.alert("Sunrise Ray Knight, Gurguit is choice restriced with Bluish Flame Liberator, Percival. Please check restriction list.");
-                    return;
-                }
-
-            }
-            if (cardName == "Bluish Flame Liberator, Percival"){
-                countNO = db.prepare("SELECT Count(Name) AS countNO from "+deckList+" WHERE Name = 'Sunrise Ray Knight, Gurguit'");
-                cardSpecialCounter = countNO.get();
-                cardSpecialCounter = cardSpecialCounter["countNO"];
-                if (cardSpecialCounter > 0)
-                {
-                    dialogs.alert("Bluish Flame Liberator, Percival is choice restriced with Sunrise Ray Knight, Gurguit. Please check restriction list.");
-                    return;
-                }
-
-            }
-
+    
         }
 
         if (cardSpecial == 'Heal'){
-            countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+" WHERE Special = 'Heal'");
+            countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Triggers WHERE Special = 'Heal'");
             cardSpecialCounter = countNO.get();
             cardSpecialCounter = cardSpecialCounter["countNO"];
             //console.log("I am a heal!");
@@ -578,11 +506,11 @@ function addCard(card){
                 dialogs.alert("You have reached the maximum number of Heal Triggers in deck!" );
                 return;
             }
-
+    
         }
 
         if (cardSpecial == 'Sentinel'){
-            countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+" WHERE Special = 'Sentinel'");
+            countNO = db.prepare("SELECT COUNT(Type) AS countNO FROM "+deckList+"_Main_Deck WHERE Special = 'Sentinel'");
             cardSpecialCounter = countNO.get();
             cardSpecialCounter = cardSpecialCounter["countNO"];
             if (cardSpecialCounter == 4)
@@ -590,61 +518,75 @@ function addCard(card){
                 dialogs.alert("You have reached the maximum number of Sentinels in deck!" );
                 return;
             }
-
-        }
-        
-
-    }  
-
-
     
+        } 
+    }
     
-        //Deck Check for Playset of 4 Number 
-        var countMax = db.prepare("SELECT COUNT(Name) AS countMax FROM "+deckList+" WHERE Name = '"+cardName+"'");
-        let cardCountMax = countMax.get();
-        cardCountMax = cardCountMax["countMax"];
-        if (cardSpecial == 'Sixteen'){
-            if (cardCountMax == 16)
-            {
-                dialogs.alert("You have reached the limit of how many you can play of this card." );
-                process.setMaxListeners(0);
-                return;
-            }
-            
-        }
-        else if (cardSpecial == 'Twelve'){
-            if (cardCountMax == 12)
-            {
-                dialogs.alert("You have reached the limit of how many you can play of this card." );
-                process.setMaxListeners(0);
-                return;
-            }
-            
-        }
-        else if (cardSpecial == 'Eight'){
-            if (cardCountMax == 8)
-            {
-                dialogs.alert("You have reached the limit of how many you can play of this card." );
-                process.setMaxListeners(0);
-                return;
-            }
-            
-        }
-        else
-        {
-            if (cardCountMax == 4)
-            {   
-                dialogs.alert('You have reached the limit of how many you can play of this card' );
-                return;
-            }
-        }
+
    
 
     
+           
+    
+        //Deck Check for Playset of 4 Number 
+        let cardCountMax;
 
+        if (document.getElementById("Ride_Deck").checked){
+            let countMax = db.prepare("SELECT Count(Grade) as countMax FROM " + deckList +"_Ride_Deck WHERE Grade = "+ cardGrade);
+            cardCountMax = countMax.get();
+            cardCountMax = cardCountMax["countMax"];
+
+            if (cardCountMax == 1){
+                dialogs.alert('You can only put 1 of each grade (0 - 3) in Ride Deck');
+                return;
+            }
+        }
+
+        if (cardType == "Normal" || cardType =="Order"){
+            let countMax = db.prepare("SELECT COUNT(Name) AS countMax FROM "+deckList+"_Main_Deck WHERE Name = '"+cardName+"'");
+            cardCountMax = countMax.get();
+            cardCountMax = cardCountMax["countMax"];
+
+            countMax = db.prepare("SELECT COUNT(Name) AS countMax FROM "+deckList+"_Ride_Deck WHERE Name = '"+cardName+"'");
+            let cardCountMax2 = countMax.get();
+            cardCountMax = cardCountMax + cardCountMax2["countMax"];
+        }
+        else{
+            let countMax = db.prepare("SELECT COUNT(Name) AS countMax FROM "+deckList+"_Triggers WHERE Name = '"+cardName+"'");
+            cardCountMax = countMax.get();
+            cardCountMax = cardCountMax["countMax"];
+
+            countMax = db.prepare("SELECT COUNT(Name) AS countMax FROM "+deckList+"_Ride_Deck WHERE Name = '"+cardName+"'");
+            let cardCountMax2 = countMax.get();
+            cardCountMax = cardCountMax + cardCountMax2["countMax"];
+        }
+
+        if (cardCountMax == 4)
+        {   
+            dialogs.alert('You have reached the limit of how many you can play of this card' );
+            return;
+        }
+
+   
     try{
-        const stmt = db.prepare('INSERT INTO '+deckList+' (Number,Name,Grade,Type,Power,Shield,Special) VALUES (?,?,?,?,?,?,?)');
-        const info = stmt.run(card,cardName,cardGrade,cardType,cardPower,cardShield,cardSpecial);
+        if (document.getElementById("Ride_Deck").checked){
+            const stmt = db.prepare('INSERT INTO '+deckList+'_Ride_Deck (Number,Name,Grade,Type,Power,Shield,Special) VALUES (?,?,?,?,?,?,?)');
+            const info = stmt.run(card,cardName,cardGrade,cardType,cardPower,cardShield,cardSpecial);
+        }
+        else{
+            if (cardType == "Normal" || cardType =="Order"){
+                const stmt = db.prepare('INSERT INTO '+deckList+'_Main_Deck (Number,Name,Grade,Type,Power,Shield,Special) VALUES (?,?,?,?,?,?,?)');
+                const info = stmt.run(card,cardName,cardGrade,cardType,cardPower,cardShield,cardSpecial);
+            }
+            if (cardType == 'Trigger'){
+                const stmt = db.prepare('INSERT INTO '+deckList+'_Triggers (Number,Name,Grade,Type,Power,Shield,Special) VALUES (?,?,?,?,?,?,?)');
+                const info = stmt.run(card,cardName,cardGrade,cardType,cardPower,cardShield,cardSpecial);
+            }
+
+        }
+        
+        
+        
         //alert("You have successfully added " + card + " to list (" + deckList+")");
     }
     catch(error)
@@ -664,17 +606,28 @@ function addCard(card){
 function deleteCard(id){
     const dialogs = Dialogs();
     var db = require('better-sqlite3')(profilesdb);
-    try{ //DELETE FROM LoginTime WHERE user_id=1 ORDER BY datetime DESC LIMIT 1
-        let sql = 'DELETE FROM '+deckList+' WHERE id = '+id +';'
     
+    if (document.getElementById("Ride_Deck_Delete").checked){
+        let sql = 'DELETE FROM '+deckList+'_Ride_Deck WHERE id = '+id +';'
         var stmt = db.prepare(sql);
         stmt.run();
-    }
-    catch(error){
-        console.log(error);
-        dialogs.alert("Deleting Card Failed!")
+        process.on('exit', () => db.close());
         process.setMaxListeners(0);
+        accessList();
+        process.setMaxListeners(0);
+        return;
     }
+
+
+    let sql = 'DELETE FROM '+deckList+'_Main_Deck WHERE id = '+id +';'
+    var stmt = db.prepare(sql);
+    stmt.run();
+
+    sql = 'DELETE FROM '+deckList+'_Triggers WHERE id = '+id +';'
+    stmt = db.prepare(sql);
+    stmt.run();
+
+
     process.on('exit', () => db.close());
     process.setMaxListeners(0);
     accessList();
@@ -684,13 +637,33 @@ function deleteCard(id){
 
 //Accessing List
 function accessList(){
-    let sql = "SELECT * FROM "+ deckList + " ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    let sql = "SELECT * FROM "+ deckList + "_Ride_Deck ORDER BY Grade ASC;";
     let t = 0;
     let db = require('better-sqlite3')(profilesdb);
     let stmt = db.prepare(sql);
     clearTables("access");
     for (const info of stmt.iterate()) {   
-        listTable(info, t);
+        listTable(info, t, 'rideDeck');
+        t = t +1;
+        deckLimit = t;
+
+    }
+    sql = "SELECT * FROM "+ deckList + "_Main_Deck ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    t = 0;
+    db = require('better-sqlite3')(profilesdb);
+    stmt = db.prepare(sql);
+    for (const info of stmt.iterate()) {   
+        listTable(info, t, 'deckList');
+        t = t +1;
+        deckLimit = t;
+
+    }
+    sql = "SELECT * FROM "+ deckList + "_Triggers ORDER BY Grade DESC, Power DESC, Shield ASC, Name ASC, Type ASC;";
+    t = 0;
+    db = require('better-sqlite3')(profilesdb);
+    stmt = db.prepare(sql);
+    for (const info of stmt.iterate()) {   
+        listTable(info, t, 'Triggers');
         t = t +1;
         deckLimit = t;
 
@@ -703,8 +676,8 @@ function accessList(){
 
 
 //Display List
-function listTable(result, t){
-    var table = document.getElementById("deckList");
+function listTable(result, t, tableName){
+    var table = document.getElementById(tableName);
     var tablerow;
 
     if (t%10 == 0){
@@ -715,19 +688,19 @@ function listTable(result, t){
     }
     else{
         if (t >= 0){
-            tablerow = document.getElementById("deckList").rows[0];
+            tablerow = document.getElementById(tableName).rows[0];
         }
         if (t >= 10){
-            tablerow = document.getElementById("deckList").rows[1];
+            tablerow = document.getElementById(tableName).rows[1];
         }
         if (t >= 20){
-            tablerow = document.getElementById("deckList").rows[2];
+            tablerow = document.getElementById(tableName).rows[2];
         }
         if (t >= 30){
-            tablerow = document.getElementById("deckList").rows[3];
+            tablerow = document.getElementById(tableName).rows[3];
         }
         if (t >= 40){
-            tablerow = document.getElementById("deckList").rows[4];
+            tablerow = document.getElementById(tableName).rows[4];
         }       
     }
     
@@ -788,9 +761,9 @@ function loadList(){
     document.getElementById('deckName').innerHTML = "Decklist: " + displayName(deckList);
 
     let db = require('better-sqlite3')(profilesdb);
-    let stmt = db.prepare("Select Clan from MasterDeckList Where DeckName = '"+deckList +"';");
+    let stmt = db.prepare("Select Nation from MasterDeckList Where DeckName = '"+deckList +"';");
     let info = stmt.get();
-    searchClan = "'"+info.Clan+"'";
+    searchNation = "'"+info.Nation+"'";
     process.on('exit', () => db.close());
 
     accessList();
