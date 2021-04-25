@@ -604,11 +604,12 @@ function addCard(card){
 
 // Removing Card From List
 function deleteCard(id){
+    console.log(id);
     const dialogs = Dialogs();
     var db = require('better-sqlite3')(profilesdb);
     
     if (document.getElementById("Ride_Deck_Delete").checked){
-        let sql = 'DELETE FROM '+deckList+'_Ride_Deck WHERE id = '+id +';'
+        let sql = "DELETE FROM "+deckList+"_Ride_Deck WHERE Number = '"+id +"';";
         var stmt = db.prepare(sql);
         stmt.run();
         process.on('exit', () => db.close());
@@ -618,12 +619,11 @@ function deleteCard(id){
         return;
     }
 
-
-    let sql = 'DELETE FROM '+deckList+'_Main_Deck WHERE id = '+id +';'
+    let sql = "DELETE FROM "+deckList+"_Main_Deck WHERE Number = '"+id +"' LIMIT 1;";
     var stmt = db.prepare(sql);
     stmt.run();
 
-    sql = 'DELETE FROM '+deckList+'_Triggers WHERE id = '+id +';'
+    sql = "DELETE FROM "+deckList+"_Triggers WHERE Number = '" +id +"' LIMIT 1;";
     stmt = db.prepare(sql);
     stmt.run();
 
@@ -713,7 +713,7 @@ function listTable(result, t, tableName){
     var x = document.createElement("IMG");
     x.src=picture;
     x.onmouseover = function() {showCard(result.Number); return;};
-    x.onclick = function() {deleteCard(result.id); return;};
+    x.onclick = function() {deleteCard(result.Number); return;};
     //x.oncontextmenu = function(){addCard(result.id); return;};
     x.height = "101";
     x.width = "70";
