@@ -1,6 +1,6 @@
 const path = require('path');
 const cfvdb = path.resolve(__dirname, '../db/cfv.db');
-
+const html2canvas = require('html2canvas');
 
 //Checkbox for how many values checked
 
@@ -288,3 +288,19 @@ function showCard(card){
     return;
 }
 
+function Screenshot(){
+    console.log('now printing');
+    var container = document.getElementById("cardPicture");
+		html2canvas(container,{allowTaint : true}).then(function(canvas) {
+            cardName = document.getElementById("cardName").innerHTML
+            cardName = cardName.replace('Name: ', "");
+            console.log(cardName)
+			var link = document.createElement("a");
+            document.body.appendChild(link);
+            fname =(cardName+".png")
+			link.download = fname;
+			link.href = canvas.toDataURL("image/png");
+			link.target = '_blank';
+			link.click();
+		});
+}
