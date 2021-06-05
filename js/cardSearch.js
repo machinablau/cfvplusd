@@ -25,6 +25,7 @@ function getResults(){
     var searchGrade = getCheckVals(document.getElementsByClassName('searchGrade'), 4);
     var searchNation = document.getElementById("searchNation").value;
     var searchType = getCheckVals(document.getElementsByClassName('searchType'), 3);
+    var searchEffect = getCheckVals(document.getElementsByClassName('searchEffect'), 6);
     var searchLowPower = document.getElementById('searchLowPower').value;
     var searchHighPower = document.getElementById('searchHighPower').value;
     var searchLowShield = document.getElementById('searchLowShield').value;
@@ -36,7 +37,7 @@ function getResults(){
     sql = 'SELECT * FROM "MasterStandardList"';
 
     //SQL Statement Add-Ons
-    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
+    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''||searchEffect!=''){
         sql += ' WHERE ';
         
         //Search by Name *Keyword idea pending*
@@ -53,7 +54,7 @@ function getResults(){
             sql += "%' OR Race LIKE '%";
             sql += searchName;
             sql += "%')";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchSet !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -63,7 +64,7 @@ function getResults(){
             sql += "CardNumber LIKE '%";
             sql += searchSet;
             sql += "%'";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchRarity !=''||searchGrade !=''||searchNation !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -83,7 +84,7 @@ function getResults(){
             rarityAddOn += ")";
             sql += rarityAddOn;
 
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchNation !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchNation !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -103,7 +104,7 @@ function getResults(){
             gradeAddOn += ")";
             sql += gradeAddOn;
 
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchNation !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchNation !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -113,7 +114,7 @@ function getResults(){
             sql += "Nation = '";
             sql += searchNation;
             sql += "'";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -133,9 +134,31 @@ function getResults(){
             typeAddOn += ")";
             sql += typeAddOn;
 
+            if(searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchEffect!=''){
+                sql += ' AND ';
+            }
+        }
+
+        //Search by Effect
+        if (searchEffect !=''){
+            sql += "(";
+            let effectAddOn ="";
+            searchEffect.forEach(function(element) {
+                effectAddOn += "Effect LIKE '%";
+                effectAddOn += element;
+                effectAddOn += "%'"
+                if (searchEffect.length > 1 && element != searchEffect[searchType.length-1]){
+                    effectAddOn += " OR ";
+                }
+            });
+
+            effectAddOn += ")";
+            sql += effectAddOn;
+
             if(searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''){
                 sql += ' AND ';
             }
+
         }
 
         //Search by Power
@@ -190,7 +213,7 @@ function getResults(){
 
     }
     sql += " ORDER BY Grade DESC, CardNumber ASC;";
-    //console.log(sql);
+    console.log(sql);
     let stmt = db.prepare(sql);
 
     //Filling up the Table

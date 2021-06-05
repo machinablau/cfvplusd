@@ -1,7 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
-require('update-electron-app')()
+
 
 //Application Menu
 const Menu = app.Menu;

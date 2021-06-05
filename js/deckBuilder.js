@@ -192,6 +192,7 @@ function getResults(){
     var searchName = document.getElementById('searchName').value;
     var searchGrade = getCheckVals(document.getElementsByClassName('searchGrade'), 6);
     var searchType = getCheckVals(document.getElementsByClassName('searchType'), 3);
+    var searchEffect = getCheckVals(document.getElementsByClassName('searchEffect'), 6);
     var searchLowPower = document.getElementById('searchLowPower').value;
     var searchHighPower = document.getElementById('searchHighPower').value;
     var searchLowShield = document.getElementById('searchLowShield').value;
@@ -206,7 +207,7 @@ function getResults(){
     sql += " OR Nation = 'Cray Elemental' OR Nation = 'Order')";
 
     //SQL Statement Add-Ons
-    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchGrade !=''||searchType !=''){
+    if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchName !='' ||searchGrade !=''||searchType !=''||searchEffect!=''){
         sql += ' AND ';
         
         //Search by Keyword
@@ -219,7 +220,7 @@ function getResults(){
             sql += "%' OR Race LIKE '%";
             sql += searchName;
             sql += "%')";
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchGrade !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -239,7 +240,7 @@ function getResults(){
             gradeAddOn += ")";
             sql += gradeAddOn;
 
-            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchType !=''){
+            if (searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchType !=''||searchEffect!=''){
                 sql += ' AND ';
             }
         }
@@ -259,9 +260,30 @@ function getResults(){
             typeAddOn += ")";
             sql += typeAddOn;
 
+            if(searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''||searchEffect!=''){
+                sql += ' AND ';
+            }
+        }
+
+        if (searchEffect !=''){
+            sql += "(";
+            let effectAddOn ="";
+            searchEffect.forEach(function(element) {
+                effectAddOn += "Effect LIKE '%";
+                effectAddOn += element;
+                effectAddOn += "%'"
+                if (searchEffect.length > 1 && element != searchEffect[searchType.length-1]){
+                    effectAddOn += " OR ";
+                }
+            });
+
+            effectAddOn += ")";
+            sql += effectAddOn;
+
             if(searchLowShield !='' ||searchHighShield !=''||searchLowPower !='' ||searchHighPower !=''){
                 sql += ' AND ';
             }
+
         }
 
         //Search by Power
@@ -785,4 +807,8 @@ function Screenshot(){
 			link.target = '_blank';
 			link.click();
 		});
+}
+
+function PDFfiller(){
+
 }
