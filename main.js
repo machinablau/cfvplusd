@@ -2,7 +2,6 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 
-
 //Application Menu
 const Menu = app.Menu;
 

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>Cardfight Vanguard Plus (CFVplus) Standard</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" href = "../css/basic.css">
+
+        <script type="text/javascript" src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <!-- Bootstrap Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="../bootstrap/js/jquery-3.4.0.min.js"></script>
+        <script src="../bootstrap/js/bootstrap.min.js"></script>
+  </head>
+ <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <a class="navbar-brand" href="../index.html"><img src="../img/CFVplus" width="120" height="60"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <!--<li class="nav-item">
+                  <a class="nav-link" href="./html/how_to_play.html">How to Play</a>-->
+                </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="./card_search.html">Card Database</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link"  href="./deck_builder.html">Deck Builder</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link"  href="./pack_sim.html">Pack Simulator</a>
+                  </li>
+                </ul>
+            </div>
+        </nav>
+
+    <div class = "container-fluid">
+        <!-- Help Modal -->
+       <div id="help" class="modal fade" role="dialog" >
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content" style="overflow-y:auto; height: 600px;">
+            <div class="modal-header">Welcome to the BETA Pack Simulator!</div>
+            <div class="modal-body">
+                Currently a work in development allowing users to virtually open packs!<br>
+                <br><br>
+
+                How it Works:<br>
+                <br>
+                1: Select a Set <br>
+                2: A Set of Cards will be selected from that set to create a pack <br>
+                3: Regardless of opening the pack or not by click the next pack will generate a new pack. 
+                These packs will closely resemble to an actual pack in terms of ratios and probability.<br>
+                4: By pressing reset case, it will reset the entire case of cards that you have opened.<br>
+                5: By clicking a card, you reveal the card as well as show the information of that card <br>
+
+                Note: Expected Case Ratios have not been implemented. This is still a work in progress.<br><br>
+
+                Expected Pulls per Box:<br><br>
+                RRR: 4<br>
+                RR: 5-6<br>
+                ORR: 1<br>
+                R: 22
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+       </div>
+        <div class = "row">
+            <!-- Set Selector -->
+            <div class ="col-md-4">
+                <br>
+                <div class= "row">
+                    <div class ="col-md-6">
+                        <img width ="210px" height="305px" src="../img/CFVBack.jpg" id = "cardPicture">
+                    </div>
+                    <div class ="col-md-6">
+                        <div class="card" style="width: 100%">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item" id = "cardGrade">Grade:</li>
+                              <li class="list-group-item" id = "cardPower">Power:</li>
+                              <li class="list-group-item" id = "cardShield">Shield:</li>
+                              <li class="list-group-item" id = "cardCritical">Critical:</li>
+                              <li class="list-group-item" id = "cardType">Type:</li>
+                              <li class="list-group-item" id = "cardRace">Race:</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class= "row"></div>
+                <div class= "row">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                          <h6 class="card-title" id = "cardName"></h6>
+                          <h6 class="card-title">Card Effect(s):</h6>
+                          <p class="card-text" id = "cardEffect" style="overflow-y:auto; height: 150px;"></p>
+                        </div>
+                      </div>
+                </div>
+ 
+            
+
+                    
+
+            </div>
+
+            <!-- Card Selection -->
+            <div class ="col-md-8">
+                <div class="row"><br/>
+                    
+                </div>
+                <div class = "row">
+                    <div class = "col-md-2">
+
+                    </div>
+                    
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg"  style="width:140px;height:203;" id = "card1" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+                    
+        
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card2" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card3" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><br></div>
+                <div class = "row">
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card4" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+        
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img  src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card5" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card6" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class = "col-md-3">
+                        <div class = "flip-animation">
+                            <a  href = "#">
+                                <img src="../img/CFVBack.jpg" style="width:140px;height:203;" id = "card7" onclick="flipCard(this.id)">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--By Set-->
+                <div class = "row"><br/></div>
+                <div class = "row">
+                    <div class = "col-md-6">
+                        <div class="form-group">
+                            <label for="category">Set:</label>
+                            <select class="form-control" id="searchSet">
+                                <option value="">--Select Set--</option>
+                                <option disabled>--Booster Sets--</option>
+                                <option value="D-BT01">D Booster Set 01: Genesis of the Five Greats</option>
+                                <option value="D-BT02">D Booster Set 02: A Brush with the Legends</option>
+                            </select>
+                        </div><br/>
+                        <button type="button" class="btn btn-primary" onclick="newpack()">Generate New Pack</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" onclick="newcase()">Case Reset</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#help" >Help?</button><br/><br/>
+                        <button type="button" class="btn btn-primary" onclick="revealallcards()">Reveal All Cards</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-primary" onclick="savecase()">Export Pack Openings as CSV </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    </div>
+                    <div class = "col-md-6">
+                        <div class="card" style="width: 100%">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item" id = "setName">Set:</li>
+                              <li class="list-group-item" id = "packNumber">Pack Number: 0</li>
+                              <li class="list-group-item" id = "boxNumber">Box Number: 0</li>
+                              <li class="list-group-item" id = "caseNumber">Case Number: 0</li>
+                            </ul>
+                        </div>
+                    </div>
+                        
+                </div>
+                <div class = "row">
+                    <div class = "col-md-12">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <!-- You can also require other files to run in this process -->
+    <script src="./renderer.js"></script>
+    <script src="../js/packSimulator.js"></script>
+
+ </body>
+</html>

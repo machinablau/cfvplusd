@@ -88,3 +88,26 @@ td    { border:solid 1px white; }
   display:block;
   z-index:999;
 }
+
+body { font-family: sans-serif; }
+
+.zoom {
+  position:relative;
+  transition: transform .2s; /* Animation */
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+/* .flip-animation {
+  background-color: transparent;
+  width: auto;
+  height: auto;
+  perspective: 1000px; /* Remove this if you don't want the 3D effect */
+/* }
+.flip-animation:hover{
+  transform: rotateY(180deg);
+} */ 
