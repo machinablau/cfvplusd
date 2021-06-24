@@ -8,6 +8,7 @@ const Dialogs = require('dialogs');
 const dialogs = Dialogs();
 
 const fs = require('fs');
+const { clear } = require('console');
 
 
 // Case variables
@@ -210,9 +211,23 @@ function newpack(){
     }
     caseCounter(card7);
     
+    clearInfo();
     dialogs.alert("New "+SetCase+" Pack has been opened. Good Luck!");
     process.setMaxListeners(0);
     return;
+}
+
+function clearInfo(){
+    document.getElementById("cardPicture").src="../img/CFVBack.jpg";
+    document.getElementById("cardName").innerHTML = "Name: ";
+    document.getElementById("cardGrade").innerHTML = "Grade: " ;
+    document.getElementById("cardPower").innerHTML = "Power: " ;
+    document.getElementById("cardShield").innerHTML = "Shield: ";
+    document.getElementById("cardCritical").innerHTML = "Critical: ";
+    document.getElementById("cardType").innerHTML = "Type: " ;
+    document.getElementById("cardRace").innerHTML = "Race: ";
+    document.getElementById("cardRarity").innerHTML = "Rarity: ";
+    document.getElementById("cardEffect").innerHTML = "";
 }
 
 function newcase(){
@@ -258,13 +273,9 @@ function newcase(){
     document.getElementById("boxNumber").innerHTML = "Box Number: 0";
     document.getElementById("caseNumber").innerHTML = "Case Number: 0";
 
+    clearInfo();
     process.setMaxListeners(0);
     return;
-}
-
-function* toRows(stmt){
-    yield stmt.columns().map(column => column.name);
-    yield* stmt.raw().iterate;
 }
 
 function savecase(){
@@ -392,6 +403,7 @@ function showCard(card){
     document.getElementById("cardCritical").innerHTML = "Critical: " + row.Critical;
     document.getElementById("cardType").innerHTML = "Type: " + row.Type;
     document.getElementById("cardRace").innerHTML = "Race: " + row.Race;
+    document.getElementById("cardRarity").innerHTML = "Rarity: " + row.Rarity;
 
     let cleanEffect = row.Effect.replace(/<br[/]>/g, "*"); //Turns Breaktags into a temporary symbol to not be effected by the change
     cleanEffect = cleanEffect.replace(/</g, "&lt"); // Turns Less than Signs to literals
