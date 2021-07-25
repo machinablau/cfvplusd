@@ -97,6 +97,7 @@ function getProfiles(){
 
     var selection1 = document.getElementById("viewDeleteList");
     var selection2 = document.getElementById("viewLoadList");
+    var selection3 = document.getElementById("viewCopyList");
 
     //reset selection before adding new ones
     selection1.options.length = 0;
@@ -105,6 +106,9 @@ function getProfiles(){
     selection2.options.length = 0;
     selection2.options[selection2.options.length] = new Option("---Select a List---", "");
 
+    selection3.options.length = 0;
+    selection3.options[selection2.options.length] = new Option("---Select a List---", "");
+
     let stmt = db.prepare("SELECT DeckName FROM MasterDeckList;");
 
     i = 1;
@@ -112,10 +116,82 @@ function getProfiles(){
         
         selection1.options[i] = new Option(displayName(row.DeckName), row.DeckName);
         selection2.options[i] = new Option(displayName(row.DeckName), row.DeckName);
+        selection3.options[i] = new Option(displayName(row.DeckName), row.DeckName);
         i = i + 1;
     }
    
     process.on('exit', () => db.close());
+    process.setMaxListeners(0);
+    return;
+}
+
+//Copy Deck List
+function copyList(){
+    const dialogs = Dialogs();
+    if ( document.getElementById("viewCopyList").value == ""){
+        dialogs.alert("Choose a list to copy." );
+        process.setMaxListeners(0);
+        return;
+    }
+    if ( document.getElementById("newCopyList").value == ""){
+        dialogs.alert("The List you created must have a name.");
+        process.setMaxListeners(0);
+        return;
+    }
+    if (!(document.getElementById("newCopyList").value.match(/^[a-zA-Z\s]*$/))){
+        dialogs.alert("Lists must only contain letters and spaces.");
+        document.getElementById("newCopyList").value = "";
+        process.setMaxListeners(0);
+        return;
+    }
+
+    let copyTable = document.getElementById("viewCopyList").value;
+
+    var db = require('better-sqlite3')(profilesdb);
+    deckList = cleanName(document.getElementById("newCopyList").value);
+
+    var stmt = db.prepare("SELECT Nation FROM 'MasterDeckList' WHERE DeckName = '" + copyTable + "'");
+    var copynation = stmt.get().Nation;
+    console.log(copynation);
+    try{
+        var stmt= db.prepare('INSERT INTO MasterDeckList (DeckName, Nation) VALUES (?,?)');
+        var info = stmt.run(deckList, copynation);
+    }
+    catch(error){
+        console.log(info);
+        console.log(error);
+        dialogs.alert("Error Occurred in Master Deck List.");
+        process.setMaxListeners(0);
+        return;
+    }
+
+    try{
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Ride_Deck (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var info = stmt.run();
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Main_Deck (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var info = stmt.run();
+        var stmt = db.prepare('CREATE TABLE ' + deckList + '_Triggers (id INTEGER PRIMARY KEY AUTOINCREMENT, Number TEXT NOT NULL, Name TEXT NOT NULL, Grade INTEGER NOT NULL, Type Text NOT NULL, Power INTEGER NOT NULL, Shield INTEGER NOT NULL, Special Text NOT NULL)');
+        var info = stmt.run();
+
+        var stmt = db.prepare("Insert into '" + deckList + "_Ride_Deck' Select * from '"+copyTable+"_Ride_Deck';");
+        var info = stmt.run();
+        var stmt = db.prepare("Insert into '" + deckList + "_Main_Deck' Select * from '"+copyTable+"_Main_Deck';");
+        var info = stmt.run();
+        var stmt = db.prepare("Insert into '" + deckList + "_Triggers' Select * from '"+copyTable+"_Triggers';");
+        var info = stmt.run();
+        
+    }
+    catch(error){
+        console.log(info);
+        console.log(error);
+        dialogs.alert("The List you are trying to create already exists!");
+        process.setMaxListeners(0);
+        return;
+    }
+
+    dialogs.alert("You have successfully copied a list!");
+
+    getProfiles();
     process.setMaxListeners(0);
     return;
 }

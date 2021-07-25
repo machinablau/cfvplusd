@@ -119,8 +119,34 @@
         </div>
       </div>
 
-      
+      <!-- Copy Modal-->
+      <div id="copy" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Copy Decklist</h4>
+            </div>
+            <div class="modal-body">
+              <form name = "searchForm" id = "searchForm" action = "./deck_builder.html" method = "GET" onsubmit="return false">
+                <select id="viewCopyList">
+                  <option>---Select Decklist---</option>
+                </select>
+                <br><br>
+                New Deck Name:&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type = "text" id = "newCopyList">
+                <br><br>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="copyList()">Copy List</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
 
 
       <!-- Load Modal -->
@@ -206,15 +232,16 @@
           <div class = "row"><h5 id = "deckName">Decklist:</h5></div>
           <div class = "row">
             
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create">Create New Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete">Delete Deck</button>&nbsp;&nbsp;
-            <a href="./deck_viewer.html" class="btn btn-primary">View Deck</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#create">Create</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#delete">Delete</button>&nbsp;&nbsp;
+            <a href="./deck_viewer.html" class="btn btn-primary">View</a>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#copy">Copy</button>
             <!-- <button type="button" class="btn btn-primary" onclick="Screenshot()" >Print</button> -->
           </div>
           <br>
           <div class = "row">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#load">Load Deck</button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="../index.html" class="btn btn-primary">Back to Menu</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#load">Load</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="../index.html" class="btn btn-primary">Menu</a>&nbsp;&nbsp;&nbsp;&nbsp;
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#help" >Help?</button>
           </div>
 
